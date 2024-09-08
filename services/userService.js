@@ -4,10 +4,24 @@ const userModel = require('../model/userModel')
 const apiError = require('../utils/appiError')
 const { read } = require('fs')
 const { SuiteContext } = require('node:test')
+const { uploadMixedImage, uploadSingleImage } = require('../middleware/uploadImage')
+const { v4: uuidv4 } = require('uuid');
+const sharp= require("sharp")
 
 
+const uploadImage=uploadSingleImage("profileImage");
+const resizeImage=asyncHandler(async(req,res,next)=>{
+    const fileName =`user-${uuidv4()}-${Date.now()}.jpeg`
+    sharp(req.file.buffer).resize(600,600)
+    .toFormat("jpeg")
+    .jpeg({quality:90})
+    .toFile(`uploads/users/${fileName}`)
+    req.body.profileImage=fileName;
+    next();
+})
 
 const createUser=asyncHandler(async(req,res,next)=>{
+  
 
            const hash=  await bcrypt.hash(req.body.password,12)
            req.body.password=hash
@@ -48,4 +62,19 @@ const deleteUser=asyncHandler(async(req,res,next)=>{
     res.status(200).json({status:"success",message:`user for this id: ${req.params.id} is deleted `})
 })
 
-module.exports={createUser,getSpecificUser,getAllUsers,deleteUser}
+const updateLoggedUser=asyncHandler(async(req,res,next)=>{
+    console.log(req.currentUser)
+    const user =await userModel.findByIdAndUpdate(req.currentUser._id,req.body,{new:true})
+    res.status(200).json({data:user})
+})
+
+const deleteLoggedUser=asyncHandler(async(req,res,next)=>{
+    const user =await userModel.findByIdAndUpdate(req.currentUser._id,{
+        active:false,
+    })
+    res.status(200).json({status:"success"})
+})
+
+
+
+module.exports={createUser,getSpecificUser,getAllUsers,deleteUser,uploadImage,resizeImage,updateLoggedUser,deleteLoggedUser}

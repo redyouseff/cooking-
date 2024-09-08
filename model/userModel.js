@@ -36,7 +36,7 @@ const userSchema=mongoose.Schema({
     },
     role:{
         type:String,
-        enum:["user","maker","deleviry"],
+        enum:["user","maker","deleviry","admin"],
         default:"user"
     },
     active:{
