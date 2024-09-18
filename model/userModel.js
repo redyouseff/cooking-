@@ -52,5 +52,26 @@ const userSchema=mongoose.Schema({
 
 },{Timestamp:true})
 
+
+const setImgageUrl=(doc)=>{
+    if(doc.profileImage){
+  
+    
+        const imageUrl=`${process.env.BASE_URL}/users/${doc.profileImage}`
+        doc.profileImage=imageUrl;
+    }
+}
+userSchema.post('init', function(doc) {
+    
+   
+   setImgageUrl(doc);
+
+  });
+
+  userSchema.post('save', function(doc) {
+   
+    setImgageUrl(doc);
+    
+   });
 const userModel=mongoose.model("user",userSchema);
 module.exports=userModel

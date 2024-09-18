@@ -41,6 +41,26 @@ const mealSchema=mongoose.Schema({
 
 })
 
+const setImgageUrl=(doc)=>{
+    if(doc.image){
+      
+        const imageUrl=`${process.env.BASE_URL}/meals/${doc.image}`
+        doc.image=imageUrl;
+    }
+}
+mealSchema.post('init', function(doc) {
+    
+   
+   setImgageUrl(doc);
+
+  });
+
+  mealSchema.post('save', function(doc) {
+   
+    setImgageUrl(doc);
+    
+   });
+
 const mealModel=mongoose.model("meal",mealSchema)
 
 module.exports=mealModel

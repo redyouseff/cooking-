@@ -12,6 +12,7 @@ const mainRoute = require("./routes/mainRoute");
 
 
 dotenv.config({path:"config.env"})
+app.use(express.static(path.join(__dirname,"uploads")))
 app.use(express.json());
 app.use(cors());
 app.options("*",cors())
