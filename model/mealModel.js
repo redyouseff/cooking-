@@ -36,10 +36,23 @@ const mealSchema=mongoose.Schema({
     },
     meal_type:{
         type:String
+    },
+    categore:{
+        type:mongoose.Schema.ObjectId,
+        ref:"categore",
+        required:[true,"categore is required"]
+    },
+    subcategore:{
+        type:[mongoose.Schema.ObjectId],
+        ref:"subcategore",
+        required:[true,"subcategore is required"]
+
     }
+    
 
 
 })
+
 
 const setImgageUrl=(doc)=>{
     if(doc.image){
@@ -48,6 +61,7 @@ const setImgageUrl=(doc)=>{
         doc.image=imageUrl;
     }
 }
+
 mealSchema.post('init', function(doc) {
     
    

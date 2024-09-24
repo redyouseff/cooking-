@@ -34,6 +34,7 @@ const creatMeal=asyncHandler(async(req,res,next)=>{
    const meal=await mealModel.create(req.body)
 
    if(!meal){
+
     next (new apiError("there is a prombem on creating your meal please try again",400));
    }
 res.status(200).json({status:"success",data:meal})
@@ -44,7 +45,8 @@ res.status(200).json({status:"success",data:meal})
 })
 
 const getSpesificMeal=asyncHandler(async(req,res,next)=>{
-    const meal=await mealModel.findById(req.params.id)
+    const meal=await mealModel.findById(req.params.id).populate("categore").populate("subcategore");
+    
     if(!meal){
         next(new apiError(`there is no meal for this id : ${req.params.id}`))
     }

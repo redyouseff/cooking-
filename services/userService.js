@@ -50,7 +50,7 @@ const getAllUsers=asyncHandler(async(req,res,next)=>{
     if(!user){
         return next(new apiError("there is no user on your database",400))
     }
-    res.status(200).json({status:"success",data:user})
+    res.status(200).json({status:"success",length:data.length,data:user})
 })
 
 
