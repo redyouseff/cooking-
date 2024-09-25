@@ -5,10 +5,10 @@ const { protect, allowedTo } = require('../services/authService');
 
 router.route("/").post(uploadImage,resizeImage ,protect,allowedTo("admin"),createCategore)
 
-.get(protect,allowedTo("admin"),getAllCategore);
+.get(protect,getAllCategore);
 ;
 
-router.route("/:id").get(protect,allowedTo("admin"),getSpecificCategore)
+router.route("/:id").get(protect,getSpecificCategore)
 .delete(protect,allowedTo("admin"),deleteCategore)
 .put(protect,allowedTo("admin"),updateCategore)
 

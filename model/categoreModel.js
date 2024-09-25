@@ -30,5 +30,14 @@ categoreSchema.post("init",function(doc){
     setImageUrl(doc)
 })
 
+
+categoreSchema.post('save', function(doc) {
+                        
+    setImageUrl(doc);
+    
+   });
+
+
+
  const  categoreModel=new mongoose.model("categore",categoreSchema)
  module.exports=categoreModel
