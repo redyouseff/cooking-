@@ -19,4 +19,48 @@ const createMenu=asyncHandler(async(req,res,next)=>{
     res.status(200).json({status:"success",data:menu})
 })
 
-module.exports= {createMenu}
+const getAllMenu=asyncHandler(async(req,res,next)=>{
+    const menu =await menuModel.find()
+    if(!menu){
+        return next(new apiError("there is an error on finding the menu",400));
+    }
+    res.status(200).json({status:"success",length:menu.length,data:menu});
+})
+
+const getSpecificMenu=asyncHandler(async(req,res,next)=>{
+    const menu =await menuModel.findById(req.params.id);
+    if(!menu){
+        return next(new apiError(`there is no menu for this id ${req.params.id}`,400))
+    }
+    res.status(200).json({status:'success',data:menu});
+})
+
+const getLoggedUserMenu=asyncHandler(async(req,res,next)=>{
+
+    const menu=await menuModel.find({user:req.currentUser._id})
+    if(!menu){
+        return next(new apiError(`there is no menu for this user ${req.currentUser._id}`));
+    }
+    res.status(200).json({status:"success",length:menu.length,data:menu,})
+})
+
+const deleteMenu=asyncHandler(async(req,res,next)=>{
+    const menu=await menuModel.findByIdAndDelete(req.params.id)
+    if(!menu){
+        return next(new apiError(`there is no menu for this id ${req.params.id}`,400));
+    }
+    res.status(200).json({status:"success",message:`menu for this id is deleted ${req.params.id}`})
+
+});
+
+const  updateMenu=asyncHandler(async(req,res,next)=>{
+     const menu=await menuModel.findByIdAndUpdate(req.params.id,req.body,{new:true})
+     if(!menu){
+        return next(new apiError(`there is no menu for this id ${req.params.id}`,400));
+     }
+     menu.save();
+     res.status(200).json({status:"success",data:menu});
+})
+
+
+module.exports= {createMenu,updateMenu,deleteMenu,getLoggedUserMenu,getSpecificMenu,getAllMenu}

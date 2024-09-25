@@ -13,7 +13,4 @@ router.route("/:id").get(getSpesificMeal).delete(protect,allowedTo("admin","make
 .put(protect,allowedTo("admin","maker"),updateMeal)
 
 
-
-
-
 module.exports=router
