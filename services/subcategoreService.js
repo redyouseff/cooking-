@@ -59,4 +59,7 @@ subc.save();
 
  })
 
+ 
+
+
  module.exports= {updataSubcategore,deleteSubcategore,getSpesificSubcategore,getAllSubcategore,createSubcategore}

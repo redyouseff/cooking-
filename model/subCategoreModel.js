@@ -3,7 +3,7 @@ const subcategoreSchema= new mongoose.Schema({
     name:{
         type:String,
         unique:true,
-        // required:[true,"name is required"],
+        required:[true,"name is required"],
         maxLength:[30,"to mach charcter"],
         minLength:[2,"to short charcter"],
 
@@ -14,7 +14,7 @@ const subcategoreSchema= new mongoose.Schema({
     },
     categore:{
         type:mongoose.Schema.ObjectId,
-        // required:[true,"categore is required"],
+        required:[true,"categore is required"],
     }
 })
 

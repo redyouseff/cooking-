@@ -3,7 +3,9 @@ const apiError = require('../utils/appiError')
 const { uploadMixedImage, uploadSingleImage } = require('../middleware/uploadImage')
 const { v4: uuidv4 } = require('uuid');
 const sharp= require("sharp")
-const categoreModel = require('../model/categoreModel')
+const categoreModel = require('../model/categoreModel');
+const subcategoreModel = require('../model/subCategoreModel');
+
 
 
 const uploadImage=uploadSingleImage("image");
@@ -68,5 +70,16 @@ const updateCategore=asyncHandler(async(req,res,next)=>{
 
 })
 
+const getsubcategoreOfCategore=asyncHandler(async(req,res,next)=>{
+        const data=await subcategoreModel.find({categore:req.params.id})
+        
+        if(!data){
+            return next(new apiError(`there is no subcategore of this id ${req.params.id}`,400));
+        }
 
-module.exports=  {createCategore,uploadImage,resizeImage,getAllCategore,getSpecificCategore,deleteCategore,updateCategore}
+        res.status(200).json({status:"success",data:data});
+
+})
+
+
+module.exports=  {createCategore,uploadImage,resizeImage,getAllCategore,getSpecificCategore,deleteCategore,updateCategore,getsubcategoreOfCategore}
